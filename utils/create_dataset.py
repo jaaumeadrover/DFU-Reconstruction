@@ -2,7 +2,8 @@
 TITLE: create_dataset
 DATE: 02/03/2024
 AUTHOR: Jaume Adrover Fernández
-DESCRIPTION:
+DESCRIPTION: script containing all dataset creation functions such as
+frame extraction, data cleaning and much more.
 """
 
 import numpy as np
@@ -14,11 +15,13 @@ import time
 import utils
 
 """
-FUNCTION:
+FUNCTION: imagesFromFile
 ARGS: 
-    ·src:
-    ·target:
-DESCRIPTION:
+    ·src:       .bag file path.
+    ·target:    dict containing color/depth img folders.
+    ·img_info:  dict containing patient number, date and bag number.
+DESCRIPTION: given a .bag file path, start its frame extraction process.
+Target path needs to be predefined. 
 """
 def imagesFromFile(src, target,img_info):
     try:
@@ -78,10 +81,6 @@ def imagesFromFile(src, target,img_info):
                 cv2.imwrite(depth_path,depth_image)
                 #print("Creating image number {:03d}".format(number))
             number += 1
-
-
-
-
 
     finally:
         print("Succesfully extracted frames!")

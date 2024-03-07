@@ -2,7 +2,9 @@
 TITLE: dataPreprocessing
 DATE: 05/03/2024
 AUTHOR: Jaume Adrover Fernández
-DESCRIPTION:
+DESCRIPTION: script in which we'll basically
+preprocess all our dataset, extracting color and depth frames from
+.bag files.
 """
 import os
 

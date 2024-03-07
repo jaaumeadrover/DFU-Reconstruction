@@ -1,5 +1,9 @@
 """
-
+TITLE: path
+DATE: 02/03/2024
+AUTHOR: Jaume Adrover Fernández
+DESCRIPTION: script containing all path manipulation functions such as
+getting all bag,color or depth paths,extracting image info etc.
 """
 import os
 
