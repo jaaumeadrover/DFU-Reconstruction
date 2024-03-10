@@ -11,7 +11,7 @@ import os
 import cv2
 from tqdm import tqdm
 from utils.create_dataset import imagesFromFile
-from utils.path import getAllPaths, getImageInfo, createImageFolders
+from utils.path import getAllPaths, getVideoInfo, createImageFolders
 from definitions import ROOT_DIR
 
 data_path = ROOT_DIR + '/data/'
@@ -22,9 +22,9 @@ for patient in tqdm(os.listdir(data_path), desc='Converting all videos to frames
          paths = getAllPaths(os.path.join(patient_path, date))
          createImageFolders(list(paths.values())[1:])
          for filename in os.listdir(paths['bag']):
-             img_path = os.path.join(paths['bag'], filename) # Get img path
-             img_info = getImageInfo(filename)               # Get img info
-             imagesFromFile(img_path, paths, img_info)
+             video_path = os.path.join(paths['bag'], filename)   # Get img path
+             video_info = getVideoInfo(filename)               # Get img info
+             imagesFromFile(video_path, paths, video_info)       # Get imgs from video
 
 
 

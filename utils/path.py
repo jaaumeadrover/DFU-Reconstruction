@@ -17,7 +17,7 @@ def getAllPaths(path):
              }
     return paths
 
-def getImageInfo(src):
+def getVideoInfo(src):
     parts  = src.split('_')
     num_bag = parts[3].split('.')[0]
     return {'patient': parts[0]+parts[1], 'date': parts[2], 'numBag': num_bag}

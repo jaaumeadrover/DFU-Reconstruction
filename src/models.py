@@ -3,7 +3,11 @@ from segment_anything import sam_model_registry, SamPredictor
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+from definitions import ROOT_DIR
+import os
 
+
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 def show_mask(mask, ax, random_color=False):
     if random_color:
@@ -29,12 +33,14 @@ def show_box(box, ax):
 
 
 
-image = cv2.imread("data/p_0001/color/000.png")
-image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+image = cv2.imread(os.path.join(ROOT_DIR,"data/p_0001/2022-05-19/color/p0001_19052022_00_c_0.png"))
+print(image)
+#image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 model_type = "vit_b"
+checkp_path = os.path.join(ROOT_DIR, "models/checkpoints/sam_vit_b_01ec64.pth")
 
-sam = sam_model_registry[model_type](checkpoint="checkpoints/sam_vit_b_01ec64.pth")
+sam = sam_model_registry[model_type](checkpoint=checkp_path)
 predictor = SamPredictor(sam)
 predictor.set_image(image)
 
@@ -46,9 +52,6 @@ masks, scores, logits = predictor.predict(
     point_labels=input_label,
     multimask_output=True,
 )
-
-
-
 
 plt.figure(1, figsize=(20,20))
 plt.imshow(image)
