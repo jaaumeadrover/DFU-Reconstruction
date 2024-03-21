@@ -1,27 +1,31 @@
-#####################################################
-##               Read bag from file                ##
-#####################################################
+"""
+TITLE: dataPreprocessing
+DATE: 05/03/2024
+AUTHOR: Jaume Adrover Fernández
+DESCRIPTION: script in which we'll basically
+preprocess all our dataset, extracting color and depth frames from
+.bag files.
+"""
 import os
 
 import cv2
-import tqdm
-from utils.create_dataset import imagesfromfile
-from utils.path import getAllPaths
+from tqdm import tqdm
+from utils.create_dataset import imagesFromFile
+from utils.path import getAllPaths, getVideoInfo, createImageFolders
 from definitions import ROOT_DIR
 
 data_path = ROOT_DIR + '/data/'
 
-#for all patients
-for patient in os.listdir(data_path):
+for patient in tqdm(os.listdir(data_path), desc='Converting all videos to frames'):
     patient_path = os.path.join(data_path, patient)
-    #for every taken video of each patient
     for date in os.listdir(patient_path):
-         paths = getAllPaths(os.path.join(patient_path,date))
+         paths = getAllPaths(os.path.join(patient_path, date))
+         createImageFolders(list(paths.values())[1:])
          for filename in os.listdir(paths['bag']):
-             img_path = os.path.join(paths['bag'],filename)
-             imagesfromfile(img_path,paths['color'])
+             video_path = os.path.join(paths['bag'], filename)   # Get img path
+             video_info = getVideoInfo(filename)               # Get img info
+             imagesFromFile(video_path, paths, video_info)       # Get imgs from video
 
 
 
 
-# cd.imagesfromfile('1.bag','../data/hola.png')
