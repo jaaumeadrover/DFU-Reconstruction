@@ -7,3 +7,5 @@ DESCRIPTION: python package with needed functions imports.
 import utils.create_dataset
 import utils.path
 import utils.tools_3d
+import utils.metrics
+import utils.image
