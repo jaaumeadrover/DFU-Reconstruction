@@ -74,7 +74,7 @@ def getOrderedFileList(path):
     return ordered_file_list
 
 def getPatientPath(patient,date):
-    return os.path.join(ROOT_DIR,'data/'+patient +'/'+date)
+    return os.path.join(DATA_DIR, patient +'/'+date)
 
 
 def getImgFrame(src):
@@ -85,3 +85,8 @@ def getFolderImgFrames(path):
     for file in os.listdir(path):
         frame_list.append(getImgFrame(file))
     return frame_list
+
+
+def getSortedList(path):
+    file_list = [f for f in os.listdir(path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+    return sorted(file_list, key=lambda x: int(x.split('_')[-1].split('.')[0]))
