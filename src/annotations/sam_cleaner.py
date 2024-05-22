@@ -33,8 +33,8 @@ if __name__ == '__main__':
 
     # Color and depth images path
     folder_path = getPatientPath(patient, date)+'/color'
-    depth_images_path = getPatientPath(patient, date)+'/depth'
-    segm_depth_img_path = getPatientPath(patient, date) + '/segm_depth/'
+    depth_images_path = getPatientPath(patient, date)+'/depth/raw'
+    segm_depth_img_path = getPatientPath(patient, date) + '/depth/segm/'
 
     # Create segmented photos directory
     createSomeFolders([segm_depth_img_path])
