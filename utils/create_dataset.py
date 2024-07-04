@@ -1,18 +1,18 @@
 """
-TITLE: create_dataset
+TITLE: create_dataset.py
 DATE: 02/03/2024
 AUTHOR: Jaume Adrover Fernández
 DESCRIPTION: script containing all dataset creation functions such as
 frame extraction, data cleaning and much more.
 """
 
-import numpy as np
-import pyrealsense2 as rs
-import cv2
-from utils.path import createColDepthImgNames
 import os
 import time
-import utils
+import cv2
+import numpy as np
+import pyrealsense2 as rs
+
+from utils.path import createColDepthImgNames
 
 """
 FUNCTION: imagesFromFile
@@ -73,13 +73,11 @@ def imagesFromFile(src, target,img_info):
 
             img_names = createColDepthImgNames(img_info, str(number))
 
-            if number % 5 == 0:
-                color_path = os.path.join(target['color'], img_names['color'])+'.png'
-                depth_path = os.path.join(target['depth'], img_names['depth']) + '.png'
+            color_path = os.path.join(target['color'], img_names['color'])+'.png'
+            depth_path = os.path.join(target['depth'], img_names['depth']) + '.png'
 
-                cv2.imwrite(color_path, color_image)
-                cv2.imwrite(depth_path,depth_image)
-                #print("Creating image number {:03d}".format(number))
+            cv2.imwrite(color_path, color_image)
+            cv2.imwrite(depth_path,depth_image)
             number += 1
 
     finally:
