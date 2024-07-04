@@ -18,7 +18,7 @@ DESCRIPTION: Given a patient_date path, extract bag,color,depth relative locatio
 def getAllPaths(path):
     paths = {'bag': os.path.join(path, 'bag'),
              'color': os.path.join(path, 'color'),
-             'depth': os.path.join(path, 'depth')
+             'depth': os.path.join(path, 'depth/raw')
              }
     return paths
 
@@ -64,13 +64,15 @@ def createSomeFolders(src):
 
 def getPatientsFolders():
     return filter(lambda x: x.startswith('p'), os.listdir(DATA_DIR))
+
 def getOrderedFileList(path):
     file_list = os.listdir(path)
+
     ordered_file_list = [None] * len(file_list)
 
     for f in file_list:
-        frame = int(f.split('_')[1].split('.')[0])
-        ordered_file_list[frame] = 'data/pcd/cropped/' + str(f)
+        frame = int(f.split('_')[-1].split('.')[0])
+        ordered_file_list[frame] = path + f
     return ordered_file_list
 
 def getPatientPath(patient,date):
@@ -90,3 +92,9 @@ def getFolderImgFrames(path):
 def getSortedList(path):
     file_list = [f for f in os.listdir(path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
     return sorted(file_list, key=lambda x: int(x.split('_')[-1].split('.')[0]))
+
+
+
+def writeCsv(path,df):
+    df.dropna()
+    df.to_csv(path, index=False)
