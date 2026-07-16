@@ -7,7 +7,7 @@ import open3d as o3d
 import numpy as np
 import pandas as pd
 
-from definitions import INTRINSICS
+from src.utils.intrinsics import get_intrinsics
 from src.utils.path import getOrderedFileList, writeCsv, getPatientPath
 from src.utils.metrics import Metrics3D
 from src.registration.fgr import run, run_until_threshold
@@ -22,7 +22,7 @@ def buildPcd(color_path,depth_path):
     rgbd_image = o3d.geometry.RGBDImage.create_from_color_and_depth(
         color_raw, depth_raw, convert_rgb_to_intensity=False)
 
-    return o3d.geometry.PointCloud.create_from_rgbd_image(rgbd_image, INTRINSICS)
+    return o3d.geometry.PointCloud.create_from_rgbd_image(rgbd_image, get_intrinsics())
 
 
 def getBestPcdIndex(pcd, score):

@@ -6,7 +6,7 @@
     CREATION DATE: 12/04/2024
 """
 import os
-from definitions import DATA_DIR
+from src.definitions import DATA_DIR
 from src.utils.image  import ImageAnnotator
 
 if __name__ == "__main__":

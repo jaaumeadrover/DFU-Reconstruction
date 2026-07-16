@@ -8,7 +8,7 @@ getting all bag,color or depth paths,extracting image info etc.
 
 import os
 
-from definitions import ROOT_DIR,DATA_DIR
+from src.definitions import ROOT_DIR,DATA_DIR
 """
 FUNCTION: getAllPaths
 ARGS: 

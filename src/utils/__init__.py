@@ -9,3 +9,4 @@ from . import path
 from . import tools_3d
 from . import metrics
 from . import image
+from . import intrinsics

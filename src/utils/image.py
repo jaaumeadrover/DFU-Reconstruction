@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from segment_anything import sam_model_registry, SamPredictor
-from definitions import ROOT_DIR
+from src.definitions import ROOT_DIR
 class ImageAnnotator:
     def __init__(self, folder_path):
         self.folder_path = folder_path

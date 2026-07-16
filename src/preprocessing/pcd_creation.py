@@ -13,14 +13,17 @@ import open3d as o3d
 import pandas as pd
 
 from tqdm import tqdm
-from definitions import CX, CY, FX, FY
 from src.utils.image import searchImgCoords
+from src.utils.intrinsics import get_focal_length, get_principal_point
 from src.utils.path import getSortedList, getPatientPath, createSomeFolders
 from src.utils.tools_3d import buildPcd
 
 if __name__ == '__main__':
     patient = 'p_0018'
     date = '2022-05-26'
+
+    FX, FY = get_focal_length()
+    CX, CY = get_principal_point()
 
     path = getPatientPath(patient,date)
 

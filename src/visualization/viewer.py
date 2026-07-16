@@ -1,7 +1,7 @@
 import os.path
 import open3d as o3d
 
-from definitions import ROOT_DIR,DATA_DIR
+from src.definitions import ROOT_DIR,DATA_DIR
 
 i=1
 def update_function(vis):

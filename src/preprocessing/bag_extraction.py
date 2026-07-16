@@ -9,7 +9,7 @@
 import os
 
 from tqdm import tqdm
-from definitions import DATA_DIR
+from src.definitions import DATA_DIR
 from src.utils.create_dataset import imagesFromFile
 from src.utils.path import getAllPaths, getVideoInfo, createSomeFolders, getPatientsFolders
 
