@@ -91,3 +91,12 @@ def run(src_path, target_path):
     return draw_registration_result(source_down, target_down, result_fast.transformation, old_score=result_fast)
 
 
+def run_until_threshold(src_path, target_path, threshold, retry_attempts):
+    pcd, score = run(src_path, target_path)
+    attempts = 0
+    while score.fitness < threshold and attempts < retry_attempts:
+        pcd, score = run(src_path, target_path)
+        attempts += 1
+    return pcd, score
+
+

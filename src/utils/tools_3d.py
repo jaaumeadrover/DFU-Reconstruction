@@ -10,7 +10,7 @@ import pandas as pd
 from definitions import INTRINSICS
 from src.utils.path import getOrderedFileList, writeCsv, getPatientPath
 from src.utils.metrics import Metrics3D
-from src.utils.fgr import run
+from src.registration.fgr import run, run_until_threshold
 """
 Function:
 Description:
@@ -45,13 +45,8 @@ class BatchIntegrator:
 
     def batchProcess(self, path, index):
         for indx in range(index, index+(self.batch_size-1)):
-            pcd, score = run(path, self.list[indx + 1])
-            attempts = 0
-            while score.fitness < self.inner_threshold:
-                pcd, score = run(path, self.list[indx + 1])
-                attempts = attempts + 1
-                if attempts == self.retry_attempts:
-                    break
+            pcd, score = run_until_threshold(path, self.list[indx + 1],
+                                              self.inner_threshold, self.retry_attempts)
             self.inner_metrics.setScore(score, indx)
             path = self.patient_path+'/pcd/unified/single/pcd_' + \
             str(indx)+'.pcd'
