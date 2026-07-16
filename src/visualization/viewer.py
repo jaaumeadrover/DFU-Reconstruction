@@ -40,7 +40,6 @@ cloud = o3d.geometry.PointCloud()
 path = os.path.join(ROOT_DIR, 'data/p_0018/2022-05-26/pcd/single/pcd_5.pcd')
 path2 = os.path.join(ROOT_DIR, 'data/p_0018/2022-05-26/pcd/single/pcd_6.pcd')
 
-cloud.points = o3d.io.read_point_cloud(path).points
 cloud = o3d.io.read_point_cloud(path)
 cloud2 = o3d.io.read_point_cloud(path2)
 

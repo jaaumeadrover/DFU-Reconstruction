@@ -7,7 +7,7 @@
 """
 import os
 from definitions import DATA_DIR
-from utils.image  import ImageAnnotator
+from src.utils.image  import ImageAnnotator
 
 if __name__ == "__main__":
     patient = 'p_0001'

@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs
 
-from utils.path import createColDepthImgNames
+from src.utils.path import createColDepthImgNames
 
 """
 FUNCTION: imagesFromFile

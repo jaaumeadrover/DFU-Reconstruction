@@ -34,8 +34,6 @@ tmesh = tmesh.fill_holes(99).to_legacy()
 # With hole filling (no difference noticed)
 o3d.visualization.draw_geometries([tmesh])
 
-# o3d.io.write_triangle_mesh('mesh.ply',tmesh)
-
 # create the triangular mesh with the vertices and faces from open3d
 tri_mesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles),
                           vertex_normals=np.asarray(mesh.vertex_normals))

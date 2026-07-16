@@ -4,8 +4,8 @@ import time
 import open3d as o3d
 import pandas as pd
 
-from utils.fgr import run
-from utils.path import getPatientPath, writeCsv, getOrderedFileList
+from src.utils.fgr import run
+from src.utils.path import getPatientPath, writeCsv, getOrderedFileList
 
 
 def run_seq():

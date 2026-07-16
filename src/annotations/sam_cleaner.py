@@ -12,8 +12,8 @@ import cv2
 import numpy as np
 import pandas as pd
 
-from utils.image import getLegMask, searchImgCoords, initSam
-from utils.path import getPatientPath, createSomeFolders, getImgFrame, getFolderImgFrames
+from src.utils.image import getLegMask, searchImgCoords, initSam
+from src.utils.path import getPatientPath, createSomeFolders, getImgFrame, getFolderImgFrames
 from tqdm import tqdm
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"

@@ -10,8 +10,8 @@ import os
 
 from tqdm import tqdm
 from definitions import DATA_DIR
-from utils.create_dataset import imagesFromFile
-from utils.path import getAllPaths, getVideoInfo, createSomeFolders, getPatientsFolders
+from src.utils.create_dataset import imagesFromFile
+from src.utils.path import getAllPaths, getVideoInfo, createSomeFolders, getPatientsFolders
 
 if __name__ == "__main__":
     # Main loop

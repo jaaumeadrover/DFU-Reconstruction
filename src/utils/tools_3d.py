@@ -8,9 +8,9 @@ import numpy as np
 import pandas as pd
 
 from definitions import INTRINSICS
-from utils.path import getOrderedFileList, writeCsv, getPatientPath
-from utils.metrics import Metrics3D
-from utils.fgr import run
+from src.utils.path import getOrderedFileList, writeCsv, getPatientPath
+from src.utils.metrics import Metrics3D
+from src.utils.fgr import run
 """
 Function:
 Description:

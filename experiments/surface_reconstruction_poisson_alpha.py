@@ -31,20 +31,6 @@ vertices_to_remove = densities < np.quantile(densities, 0.01)
 poisson_mesh.remove_vertices_by_mask(vertices_to_remove)
 o3d.visualization.draw_geometries([poisson_mesh], mesh_show_back_face=True)
 
-# # Create the triangular mesh with the vertices and faces from Open3D
-# tri_mesh_alpha = trimesh.Trimesh(np.asarray(mesh_alpha.vertices), np.asarray(mesh_alpha.triangles),
-#                                  vertex_normals=np.asarray(mesh_alpha.vertex_normals))
-# tri_mesh_poisson = trimesh.Trimesh(np.asarray(poisson_mesh.vertices), np.asarray(poisson_mesh.triangles),
-#                                    vertex_normals=np.asarray(poisson_mesh.vertex_normals))
-#
-# # Visualize final meshes
-# o3d.visualization.draw_geometries([mesh_alpha], mesh_show_back_face=True)
-# o3d.visualization.draw_geometries([poisson_mesh], mesh_show_back_face=True)
-
-# Optionally save meshes
-# o3d.io.write_triangle_mesh('alpha_shape_mesh.ply', mesh_alpha)
-# o3d.io.write_triangle_mesh('poisson_mesh.ply', poisson_mesh)
-
 # Print execution times
 print(f"Alpha Shapes Execution Time: {alpha_time:.6f} seconds")
 print(f"Poisson Surface Reconstruction Execution Time: {poisson_time:.6f} seconds")

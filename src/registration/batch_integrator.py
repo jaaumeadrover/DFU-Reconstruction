@@ -1,7 +1,7 @@
 import time
 
-from utils.path import getPatientPath, createSomeFolders
-from utils.tools_3d import BatchIntegrator
+from src.utils.path import getPatientPath, createSomeFolders
+from src.utils.tools_3d import BatchIntegrator
 
 if __name__ == '__main__':
     patient = 'p_0001'

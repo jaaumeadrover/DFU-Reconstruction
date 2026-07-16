@@ -1,11 +1,11 @@
 import numpy as np
 import csv
 """
-TITLE: path.py
+TITLE: metrics.py
 DATE: 02/03/2024
 AUTHOR: Jaume Adrover Fernández
-DESCRIPTION: script containing all path manipulation functions such as
-getting all bag,color or depth paths,extracting image info etc.
+DESCRIPTION: script containing registration quality metrics (fitness, RMSE,
+correspondence set size) collection and CSV export.
 """
 
 def getAvgValue(list,value):

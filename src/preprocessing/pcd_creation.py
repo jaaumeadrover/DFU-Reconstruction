@@ -14,9 +14,9 @@ import pandas as pd
 
 from tqdm import tqdm
 from definitions import CX, CY, FX, FY
-from utils.image import searchImgCoords
-from utils.path import getSortedList, getPatientPath, createSomeFolders
-from utils.tools_3d import buildPcd
+from src.utils.image import searchImgCoords
+from src.utils.path import getSortedList, getPatientPath, createSomeFolders
+from src.utils.tools_3d import buildPcd
 
 if __name__ == '__main__':
     patient = 'p_0018'
