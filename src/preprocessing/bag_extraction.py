@@ -13,14 +13,19 @@ from src.definitions import DATA_DIR
 from src.utils.create_dataset import imagesFromFile
 from src.utils.path import getAllPaths, getVideoInfo, createSomeFolders, getPatientsFolders
 
+def extract_frames(patient, date):
+    patient_path = os.path.join(DATA_DIR, patient)
+    paths = getAllPaths(os.path.join(patient_path, date))
+    createSomeFolders(list(paths.values())[1:])  # Create color/depth img folders
+    for filename in tqdm(os.listdir(paths['bag']), desc=f'Extracting frames for {patient}/{date}'):
+        video_path = os.path.join(paths['bag'], filename)  # Get .bag path
+        video_info = getVideoInfo(filename)  # Get video info
+        imagesFromFile(video_path, paths, video_info)  # Get imgs from recorded sequence
+
+
 if __name__ == "__main__":
     # Main loop
     for patient in tqdm(getPatientsFolders(), desc='Converting all videos to frames'):
         patient_path = os.path.join(DATA_DIR, patient)  # Get Patient Date
         for date in os.listdir(patient_path):
-            paths = getAllPaths(os.path.join(patient_path, date))
-            createSomeFolders(list(paths.values())[1:])  # Create color/depth img folders
-            for filename in os.listdir(paths['bag']):
-                video_path = os.path.join(paths['bag'], filename)  # Get .bag path
-                video_info = getVideoInfo(filename)  # Get video info
-                imagesFromFile(video_path, paths, video_info)  # Get imgs from recorded sequence
+            extract_frames(patient, date)

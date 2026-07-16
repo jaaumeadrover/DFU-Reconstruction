@@ -20,10 +20,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 
 
-if __name__ == '__main__':
-    patient = 'p_0018'
-    date    = '2022-05-26'
-
+def segment(patient, date, visualize=False):
     # Sam Model
     predictor = initSam()
 
@@ -39,7 +36,9 @@ if __name__ == '__main__':
     # Create segmented photos directory
     createSomeFolders([segm_depth_img_path])
 
-    frame = 0
+    # Frames already segmented, so reruns resume instead of redoing everything
+    done_frames = set(getFolderImgFrames(segm_depth_img_path))
+
     # Main Loop
     for f in tqdm(os.listdir(folder_path), desc='Analysing frames...'):
         filename = f                         # Get filename
@@ -50,7 +49,7 @@ if __name__ == '__main__':
         frame = getImgFrame(filename)
 
         # Check if frame has been done or not
-        if frame in getFolderImgFrames(segm_depth_img_path):
+        if frame in done_frames:
             continue
 
         # Get wound coords from annotations
@@ -75,7 +74,7 @@ if __name__ == '__main__':
         )
 
         # Get SAM predictions
-        foot_mask = getLegMask(masks, scores, input_point, input_label, image)    # Get worst SAM mask (full leg)
+        foot_mask = getLegMask(masks, scores, input_point, input_label, image, visualize)    # Get worst SAM mask (full leg)
 
         # Multiply depth * mask
         depth_image = cv2.imread(os.path.join(depth_images_path, depth_filename), cv2.IMREAD_UNCHANGED)
@@ -83,6 +82,12 @@ if __name__ == '__main__':
 
         # Store segmented depth image
         cv2.imwrite(segm_depth_img_path+depth_filename, segm_depth_img)
+
+
+if __name__ == '__main__':
+    patient = 'p_0018'
+    date    = '2022-05-26'
+    segment(patient, date)
 
 
 

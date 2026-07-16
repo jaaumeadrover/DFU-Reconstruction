@@ -12,6 +12,7 @@ from src.utils.tools_3d import BatchIntegrator
 def run_sequential(conf):
     patient = conf['patient']
     date = conf['date']
+    visualize = conf.get('visualize', False)
     ordered_file_list = getOrderedFileList(conf['files_path'])
 
     fitness = [None] * 2 * len(ordered_file_list)
@@ -43,7 +44,8 @@ def run_sequential(conf):
 
         output_combined_path = getPatientPath(patient, date) + f'/pcd/unified/pcd_{comb}.pcd'
         #o3d.io.write_point_cloud(output_combined_path, pcd)
-        o3d.visualization.draw_geometries([pcd])
+        if visualize:
+            o3d.visualization.draw_geometries([pcd])
         print(f'Saved combined point cloud: {output_combined_path}')
 
         i += 1
@@ -70,6 +72,25 @@ def run_batch(conf):
     print('Batch Integration took:' + str((time.time() - start)))
 
 
+def run_registration(patient, date, strategy='batch', retry_attempts=3, inner_threshold=0.875,
+                      batch_size=5, batch_threshold=0.879, visualize=False):
+    conf = {
+        'files_path': getPatientPath(patient, date) + '/pcd/single/',
+        'retry_attempts': retry_attempts,
+        'inner_threshold': inner_threshold,
+        'batch_size': batch_size,
+        'batch_threshold': batch_threshold,
+        'patient': patient,
+        'date': date,
+        'visualize': visualize,
+    }
+
+    if strategy == 'sequential':
+        run_sequential(conf)
+    else:
+        run_batch(conf)
+
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Merge per-frame point clouds of a patient/date into one registered point cloud.')
@@ -82,23 +103,13 @@ def parse_args():
     parser.add_argument('--inner-threshold', type=float, default=0.875)
     parser.add_argument('--batch-size', type=int, default=5, help='Only used with --strategy batch')
     parser.add_argument('--batch-threshold', type=float, default=0.879, help='Only used with --strategy batch')
+    parser.add_argument('--visualize', action='store_true',
+                         help='Show each merged point cloud (sequential strategy only)')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
     args = parse_args()
 
-    conf = {
-        'files_path': getPatientPath(args.patient, args.date) + '/pcd/single/',
-        'retry_attempts': args.retry_attempts,
-        'inner_threshold': args.inner_threshold,
-        'batch_size': args.batch_size,
-        'batch_threshold': args.batch_threshold,
-        'patient': args.patient,
-        'date': args.date,
-    }
-
-    if args.strategy == 'sequential':
-        run_sequential(conf)
-    else:
-        run_batch(conf)
+    run_registration(args.patient, args.date, args.strategy, args.retry_attempts,
+                      args.inner_threshold, args.batch_size, args.batch_threshold, args.visualize)

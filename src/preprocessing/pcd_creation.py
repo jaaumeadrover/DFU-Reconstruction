@@ -18,10 +18,7 @@ from src.utils.intrinsics import get_focal_length, get_principal_point
 from src.utils.path import getSortedList, getPatientPath, createSomeFolders
 from src.utils.tools_3d import buildPcd
 
-if __name__ == '__main__':
-    patient = 'p_0018'
-    date = '2022-05-26'
-
+def create_point_clouds(patient, date, visualize=False):
     FX, FY = get_focal_length()
     CX, CY = get_principal_point()
 
@@ -67,8 +64,14 @@ if __name__ == '__main__':
         pcd = pcd.crop(bbox)
         pcd = pcd.voxel_down_sample(voxel_size=0.01)
 
-        # Uncomment if wanted to see pcd + bounding box
-        o3d.visualization.draw_geometries([pcd,bbox])
+        if visualize:
+            o3d.visualization.draw_geometries([pcd,bbox])
 
         o3d.io.write_point_cloud(pcd_path+'pcd_'+str(i)+'.pcd', pcd)
         i = i+1
+
+
+if __name__ == '__main__':
+    patient = 'p_0018'
+    date = '2022-05-26'
+    create_point_clouds(patient, date)

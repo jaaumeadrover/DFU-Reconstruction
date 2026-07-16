@@ -57,19 +57,20 @@ class ImageAnnotator:
 
 
 
-def getLegMask(masks,scores,input_point,input_label, image):
+def getLegMask(masks,scores,input_point,input_label, image, visualize=False):
     old_score = 9999
     foot_mask = None
     for i, (mask, score) in enumerate(zip(masks, scores)):
         if old_score > score:
             foot_mask = mask
             old_score = score
-        plt.imshow(image)
-        show_mask(mask, plt.gca())
-        show_points(input_point, input_label, plt.gca())
-        plt.title(f"Mask {i + 1}, Score: {score:.3f}", fontsize=18)
-        plt.axis('off')
-        plt.show()
+        if visualize:
+            plt.imshow(image)
+            show_mask(mask, plt.gca())
+            show_points(input_point, input_label, plt.gca())
+            plt.title(f"Mask {i + 1}, Score: {score:.3f}", fontsize=18)
+            plt.axis('off')
+            plt.show()
     return foot_mask
 
 
@@ -100,6 +101,6 @@ def show_points(coords, labels, ax, marker_size=375):
 def initSam():
     # Initialize SAM model
     model_type = "vit_b"
-    checkp_path = os.path.join(ROOT_DIR, "models/checkpoints/sam_vit_b_01ec64.pth")
+    checkp_path = os.path.join(ROOT_DIR, "models/sam_vit_b_01ec64.pth")
     sam = sam_model_registry[model_type](checkpoint=checkp_path)
     return SamPredictor(sam)

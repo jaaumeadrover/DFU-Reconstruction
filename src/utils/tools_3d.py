@@ -88,8 +88,7 @@ class BatchIntegrator:
         batches_len = int(2 * (len(self.list)/self.batch_size))
 
 
-        #while i < (len(self.list)-self.batch_size):
-        while i < (100):
+        while i < (len(self.list) - self.batch_size):
             print('Iteration number: ' + str(i))
             path = self.list[i]
 

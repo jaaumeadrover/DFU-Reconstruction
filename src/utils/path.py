@@ -89,6 +89,10 @@ def getFolderImgFrames(path):
     return frame_list
 
 
+def getExistingFrameNumbers(folder, prefix):
+    return {getImgFrame(f) for f in os.listdir(folder) if f.startswith(prefix)}
+
+
 def getSortedList(path):
     file_list = [f for f in os.listdir(path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
     return sorted(file_list, key=lambda x: int(x.split('_')[-1].split('.')[0]))

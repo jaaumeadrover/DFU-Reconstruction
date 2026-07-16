@@ -12,7 +12,7 @@ import cv2
 import numpy as np
 import pyrealsense2 as rs
 
-from src.utils.path import createColDepthImgNames
+from src.utils.path import createColDepthImgNames, getExistingFrameNumbers
 
 """
 FUNCTION: imagesFromFile
@@ -27,6 +27,16 @@ def imagesFromFile(src, target,img_info):
     try:
         time.sleep(1)
         print('\nStarting frame extraction from '+src)
+
+        # Resume after the last frame whose color and depth image were both already written
+        base_name = '_'.join(img_info.values())
+        existing_color = getExistingFrameNumbers(target['color'], base_name + '_c_')
+        existing_depth = getExistingFrameNumbers(target['depth'], base_name + '_d_')
+        complete_frames = existing_color & existing_depth
+        start_number = max(complete_frames) + 1 if complete_frames else 0
+        if start_number:
+            print(f'Resuming from frame {start_number} ({len(complete_frames)} already extracted)')
+
         # Create pipeline
         pipeline = rs.pipeline()
         # Create a config object
@@ -62,6 +72,11 @@ def imagesFromFile(src, target,img_info):
 
             # Validate that both frames are valid
             if not aligned_depth_frame or not color_frame:
+                continue
+
+            # Already extracted in a previous run of this video, skip re-decoding/writing it
+            if number < start_number:
+                number += 1
                 continue
 
             # Extract color/depth images
