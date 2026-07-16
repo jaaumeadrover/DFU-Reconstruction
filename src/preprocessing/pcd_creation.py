@@ -18,6 +18,23 @@ from src.utils.intrinsics import get_focal_length, get_principal_point
 from src.utils.path import getSortedList, getPatientPath, createSomeFolders
 from src.utils.tools_3d import buildPcd
 
+
+def find_nearby_depth(depth_img, cx, cy, max_radius=20):
+    """The exact wound pixel is sometimes an invalid depth reading (sensor dropout);
+    fall back to the nearest valid depth in an expanding window around it."""
+    if depth_img[cy, cx] > 0:
+        return depth_img[cy, cx]
+    h, w = depth_img.shape[:2]
+    for r in range(1, max_radius + 1):
+        y0, y1 = max(cy - r, 0), min(cy + r + 1, h)
+        x0, x1 = max(cx - r, 0), min(cx + r + 1, w)
+        window = depth_img[y0:y1, x0:x1]
+        valid = window[window > 0]
+        if valid.size:
+            return np.median(valid)
+    return 0
+
+
 def create_point_clouds(patient, date, visualize=False):
     FX, FY = get_focal_length()
     CX, CY = get_principal_point()
@@ -52,7 +69,12 @@ def create_point_clouds(patient, date, visualize=False):
         d_cx, d_cy = searchImgCoords(f, df)
 
         # Get wound pixel depth value
-        depth_value = cv2.imread(depth_file, cv2.IMREAD_UNCHANGED)[d_cy, d_cx]
+        depth_img = cv2.imread(depth_file, cv2.IMREAD_UNCHANGED)
+        depth_value = find_nearby_depth(depth_img, d_cx, d_cy)
+        if depth_value == 0:
+            print(f'Skipping {f}: no valid depth found near wound pixel ({d_cx}, {d_cy})')
+            i = i + 1
+            continue
 
         # Calculate center coordinate 2D -> 3D
         z = depth_value*0.001

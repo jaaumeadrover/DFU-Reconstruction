@@ -67,13 +67,8 @@ def getPatientsFolders():
 
 def getOrderedFileList(path):
     file_list = os.listdir(path)
-
-    ordered_file_list = [None] * len(file_list)
-
-    for f in file_list:
-        frame = int(f.split('_')[-1].split('.')[0])
-        ordered_file_list[frame] = path + f
-    return ordered_file_list
+    frame_to_file = {int(f.split('_')[-1].split('.')[0]): f for f in file_list}
+    return [path + frame_to_file[frame] for frame in sorted(frame_to_file)]
 
 def getPatientPath(patient,date):
     return os.path.join(DATA_DIR, patient +'/'+date)
