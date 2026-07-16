@@ -7,11 +7,15 @@ import numpy as np
 from segment_anything import sam_model_registry, SamPredictor
 from src.definitions import ROOT_DIR
 class ImageAnnotator:
-    def __init__(self, folder_path):
+    def __init__(self, folder_path, existing_annotations=None):
         self.folder_path = folder_path
-        self.image_files = [f for f in self.get_ordered_file_list(folder_path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+        self.annotations = dict(existing_annotations or {})
+        ordered_files = [f for f in self.get_ordered_file_list(folder_path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+        self.image_files = [f for f in ordered_files if f not in self.annotations]
         self.current_index = 0
-        self.annotations = {}
+
+        if not self.image_files:
+            return
 
         self.root = tk.Tk()
         self.canvas = tk.Canvas(self.root, width=800, height=600)

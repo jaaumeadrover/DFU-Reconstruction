@@ -6,17 +6,30 @@
     CREATION DATE: 12/04/2024
 """
 import os
+
+import pandas as pd
+
 from src.utils.image import ImageAnnotator
 from src.utils.path import getPatientPath
 
 
 def annotate(patient, date):
     csv_path = os.path.join(getPatientPath(patient, date), 'annotations.csv')
-    if os.path.exists(csv_path):
-        print(f'Annotations already exist at {csv_path}, skipping manual annotation.')
-        return
     folder_path = os.path.join(getPatientPath(patient, date), 'color')
-    annotator = ImageAnnotator(folder_path)
+
+    existing_annotations = {}
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+        existing_annotations = {row['Filename']: (row['X'], row['Y']) for _, row in df.iterrows()}
+
+    total = len([f for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg', '.gif'))])
+    remaining = total - len(existing_annotations)
+    if remaining <= 0:
+        print(f'All {total} frames already annotated at {csv_path}, skipping manual annotation.')
+        return
+    print(f'{len(existing_annotations)}/{total} frames already annotated, {remaining} left to click.')
+
+    annotator = ImageAnnotator(folder_path, existing_annotations)
     annotator.save_annotations_to_csv(csv_path)
 
 
