@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 from src.utils.intrinsics import get_intrinsics
-from src.utils.path import getOrderedFileList, writeCsv, getPatientPath
+from src.utils.path import getOrderedFileList, writeCsv, getPatientPath, createSomeFolders
 from src.utils.metrics import Metrics3D
 from src.registration.fgr import run, run_until_threshold
 """
@@ -39,6 +39,12 @@ class BatchIntegrator:
         self.patient = conf['patient']
         self.date = conf['date']
         self.patient_path = getPatientPath(self.patient, self.date)
+
+        createSomeFolders([
+            self.patient_path + '/pcd/unified/single/',
+            self.patient_path + '/pcd/unified/batch/',
+            self.patient_path + '/pcd/unified/combined/',
+        ])
 
         self.inner_metrics = Metrics3D(len(self.list))
         self.outer_metrics = Metrics3D(int(len(self.list)/self.batch_size) + 1)

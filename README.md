@@ -23,17 +23,22 @@ tone) since it's graphic medical content; the point cloud panel is left unredact
 
 1. **Preprocessing** (`src/preprocessing/bag_extraction.py`) — extracts aligned color and
    depth frames from each patient's `.bag` recordings.
+
 2. **Annotation** (`src/annotations/image_annotation.py`) — a small Tkinter tool for manually
    clicking the ulcer location on each color frame, saved to `annotations.csv`.
+
 3. **Segmentation** (`src/annotations/sam_cleaner.py`) — runs Meta's Segment Anything (SAM) at
    the annotated point to get a full-leg mask per frame, and uses it to zero out irrelevant
    depth pixels.
+
 4. **Point cloud creation** (`src/preprocessing/pcd_creation.py`) — back-projects each
    color/depth pair into a point cloud and crops a 45x45x45 cm bounding box centered on the
    wound.
+
 5. **Registration** (`src/registration/run_registration.py`) — merges consecutive per-frame
    point clouds into a unified point cloud using Fast Global Registration (FGR) and ICP
    refinement, either sequentially or in batches.
+   
 6. **Visualization** (`src/visualization/viewer.py`) — steps through the reconstructed point
    clouds of a patient in an Open3D viewer.
 
