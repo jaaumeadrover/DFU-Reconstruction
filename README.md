@@ -45,6 +45,8 @@ tone) since it's graphic medical content; the point cloud panel is left unredact
 Surface-meshing (Poisson, alpha shapes, ball pivoting) lives separately in
 `src/surface_reconstruction/reconstruction.py` — see [Repo structure](#repo-structure).
 
+![360-degree rotation of a Poisson-reconstructed surface mesh from a registered point cloud](docs/mesh_demo.gif)
+
 ## Setup
 
 Requires Python 3.9+ (developed against 3.9.12).
